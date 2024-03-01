@@ -48,8 +48,8 @@ sed -i 's/@include common-auth/#@include common-auth/g' /etc/pam.d/sshd
 echo 'auth required pam_google_authenticator.so nullok' >> /etc/pam.d/sshd
 echo 'auth required pam_permit.so' >> /etc/pam.d/sshd
 
-cat <<EOT > /etc/profile.d/00-mfa.sh
-if [ ! -e $HOME/.google_authenticator ]; then
+cat << 'EOT' > /etc/profile.d/00-mfa.sh
+if ! [ -s $HOME/.google_authenticator ]; then
   trap logout SIGINT # prevent bypassing with ctrl-c
 
   google-authenticator --time-based --disallow-reuse --force --rate-limit=3 --rate-time=30 --window-size=1
