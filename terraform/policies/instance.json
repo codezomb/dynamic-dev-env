@@ -1,0 +1,49 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Resource": "arn:aws:ecr:*:*:repository/*",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:DescribeRepositories",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeImages",
+        "ecr:BatchGetImage",
+        "ecr:ListImages"
+      ]
+    },
+    {
+      "Resource": "${s3_bucket}",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ]
+    },
+    {
+      "Resource": "${s3_bucket}/*",
+      "Effect": "Allow",
+      "Action": [
+        "s3:*Object"
+      ]
+    },
+    {
+      "Resource": "${kms_key}",
+      "Effect": "Allow",
+      "Action": [
+        "kms:GenerateDataKey",
+        "kms:Encrypt",
+        "kms:Decrypt"
+      ]
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ec2:DescribeVolumes"
+      ]
+    }
+  ]
+}
