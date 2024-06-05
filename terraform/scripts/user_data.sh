@@ -16,11 +16,11 @@ until [ "$${DATA_STATE}" == "attached" ]; do
 done
 
 # Setup /etc/fstab to automount the volume at the users home directory
-echo '/dev/xvdh /home/ubuntu ext4 defaults,nofail 0 2' | tee -a /etc/fstab
+echo '/dev/nvme1n1 /home/ubuntu ext4 defaults,nofail 0 2' | tee -a /etc/fstab
 
 # Format and mount the volume, copy the data and unmount
-if [[ "$(lsblk -no FSTYPE /dev/xvdh)" != "ext4" ]]; then
-  mkfs -t ext4 /dev/xvdh && mount /dev/xvdh /mnt
+if [[ "$(lsblk -no FSTYPE /dev/nvme1n1)" != "ext4" ]]; then
+  mkfs -t ext4 /dev/nvme1n1 && mount /dev/nvme1n1 /mnt
   cp -pR /home/ubuntu/. /mnt/ && umount /mnt
 fi
 
@@ -29,6 +29,8 @@ mount -a
 
 # Setup docker credentials helper
 mkdir -p /home/ubuntu/.docker/
+chown -R ubuntu:ubuntu /home/ubuntu/.docker/.docker
+
 cat <<EOF > /home/ubuntu/.docker/config.json
 {
   "credHelpers" : {
